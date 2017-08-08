@@ -1,7 +1,6 @@
 ## Attentions  
----
 1. 在上传本地文件到github时，使用命令`git push -u origin master`上传的是位于master区的文件，所以在上传的本地文件需要`add` `commit`后才能上传到远程库github中。
-```javascript
+```ruby
 zhouyj@zhouyj-ubuntu:~/docs$ git push -u origin master
 Counting objects: 4, done.
 Delta compression using up to 4 threads.
@@ -15,9 +14,8 @@ To git@github.com:ergasterzhou/documents.git
 ```
 
 ## Problems  
----
 #### fatal: Could not read from remote repository.  
-```javascript
+```ruby
 zhouyj@zhouyj-ubuntu:~/docs$ git remote add origin git@github.com:ergasterzhou/documents.git
 zhouyj@zhouyj-ubuntu:~/docs$ git push -u origin master
 Warning: Permanently added the RSA host key for IP address '192.30.253.112' to the list of known hosts.
@@ -51,7 +49,7 @@ zhouyj@zhouyj-ubuntu:~/.ssh$ ssh-add -l
 发现该公钥应该是Ubuntu与公司服务器之间的公钥，没有与github的公钥  
 所以要生成并添加github的公钥
 `ssh-keygen -t rsa -b 4096 -C "你的github邮箱"`生成公钥
-```javascript
+```ruby
 zhouyj@zhouyj-ubuntu:~/githome$ ssh-keygen -t rsa -b 4096 -C "alanzhou@allwinnertech.com"
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/zhouyj/.ssh/id_rsa): /home/zhouyj/.ssh/id_github
