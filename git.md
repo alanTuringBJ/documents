@@ -1,5 +1,20 @@
+### Attentions
+1. 在上传本地文件到github时，使用命令`git push -u origin master`上传的是位于master区的文件，所以在上传的本地文件需要`add` `commit`后才能上传到远程库github中。
+```
+zhouyj@zhouyj-ubuntu:~/docs$ git push -u origin master
+Counting objects: 4, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 1.74 KiB | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To git@github.com:ergasterzhou/documents.git
+   e7c6c5a..7ce2ab6  master -> master
+分支 master 设置为跟踪来自 origin 的远程分支 master。
+```
+
 ### Problems  
-####fatal: Could not read from remote repository.  
+#### fatal: Could not read from remote repository.  
 ```
 zhouyj@zhouyj-ubuntu:~/docs$ git remote add origin git@github.com:ergasterzhou/documents.git
 zhouyj@zhouyj-ubuntu:~/docs$ git push -u origin master
