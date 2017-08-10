@@ -18,3 +18,7 @@ $(<function> <arguement>,... ...,<arguement>)
 > * findstring		查找字符串函数
 > * filter			过滤函数
 > * filter-out		反过滤函数
+
+| 函数名  |     函数内容  |
+| ：---： |  ：---：     |
+|subst|字符串替换函数|
