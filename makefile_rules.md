@@ -14,10 +14,12 @@ make支持三个通配符`*`,`?`,`~`.
 ```ruby
 VPATH = src1:src2
 ```
-VPATH指明两个目录"src1"和"src2"，目录之间用冒号`“”`分隔。  
+VPATH指明两个目录"src1"和"src2"，目录之间用冒号`:`分隔。  
 相比VPATH而言，vpath搜索目录更加灵活，可以搜索不同目录下的不同类型的文件。使用方法如下：  
-	vpath <pattern> <directories>
-    
+```ruby
+vpath <pattern> <directories>
+```
+
 为符合模式<pattern>的文件指定搜索目录<directories>。  
 例如：搜索上级目录headers文件下的头文件。  
 ```ruby
