@@ -22,3 +22,4 @@ $(<function> <arguement>,... ...,<arguement>)
 | 函数名  |     函数内容  |
 | ：---： |  ：---：     |
 |subst|字符串替换函数|
+
