@@ -124,7 +124,7 @@ sudo apt-get install minicom
 ```ruby
 sudo minicom
 ```
-<img src="https://github.com/ergasterzhou/img/blob/master/001.png" alt="001" title="001" width="200" height="30" />
+<img src="https://github.com/ergasterzhou/img/blob/master/001.png" alt="001" title="001" width="500" height="100" />
 
 
 
