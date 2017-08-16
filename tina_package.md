@@ -114,7 +114,8 @@ Is your src/ directory actually clean? I suspect it contains an "amldmonitor" ex
 * 运行helloworld程序
 
 ### minicom设置
-* 查找串口使用那个USB口
+
+* `lsusb`查找使用的USB的ID
 ```ruby
 zhouyj@zhouyj-ubuntu:~$ lsusb
 Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
@@ -137,7 +138,7 @@ sudo minicom
 <img src="https://github.com/ergasterzhou/img/blob/master/001.png" alt="001" title="001" width="500" height="100" />
 
 * `[Ctrl]A Z`进入Minicom Command Summary
-<img src="https://github.com/ergasterzhou/img/blob/master/002.png" alt="002" title="002" width="500" height="400" />
+<img src="https://github.com/ergasterzhou/img/blob/master/002.png" alt="002" title="002" width="500" height="350" />
 
 * `O`进入串口设置
 <img src="https://github.com/ergasterzhou/img/blob/master/003.png" alt="003" title="003" width="500" height="300" />
@@ -149,6 +150,54 @@ sudo minicom
 <img src="https://github.com/ergasterzhou/img/blob/master/005.png" alt="005" title="005" width="500" height="300" />
 
 * `[Ctrl]A X`退出minicom
+
+参考链接：[minicom的配置](http://blog.csdn.net/huang_jinjin/article/details/7475188)
+
+### adb的设置
+当遇到需要安装新的文件到开发板系统的时候，将重新编译的系统文件烧写到开发板，这种做法时间长，操作复杂而且容易出错。
+那么有没有简单方式安装新的文件到开发板上呢？通过adb（Android Debug Bridge）传输命令行工具。
+```ruby
+adb push <local> <remote>
+```
+例如：
+```ruby
+adb push /home/zhouyj/compile/tina/out/sitar-perf1/packages/base/helloworld_0.0.1_sunxi.ipk /ipk
+
+```
+在安装完adb后连接设备，提示权限不正确，出现错误信息：
+```ruby
+shily@hh-desktop:~$adb shell
+error: insufficient permissions for device
+shily@hh-desktop:~$ adb devices
+List of devices attached 
+????????????    no permissions
+```
+解决方式：
+
+* 用`lsusb`在终端查看USB的ID号;
+* 进入`/etc/udev/rules.d/`目录，修改`70-Andriod.rules`文件，如果没有就创建，在在这个文件中写上：
+```ruby
+SUBSYSTEM=="usb", ATTRS{idVendor}=="youridVendor", ATTRS{idProduct}=="youridProduct",MODE="0666"
+```
+* 修改`70-Andriod.rules`文件权限
+```ruby
+sudo chmod a+x 70-android.rules
+```
+
+* 采用root权限启动adb server
+```ruby
+sudo adb kill-server ; adb start-server
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
