@@ -114,6 +114,16 @@ Is your src/ directory actually clean? I suspect it contains an "amldmonitor" ex
 * 运行helloworld程序
 
 ### minicom设置
+* 查找串口使用那个USB口
+```ruby
+zhouyj@zhouyj-ubuntu:~$ lsusb
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 001 Device 004: ID 09da:c10a A4 Tech Co., Ltd 
+Bus 001 Device 003: ID 1c4f:0026 SiGma Micro Keyboard
+Bus 001 Device 005: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+Bus 001 Device 002: ID 1a40:0201 Terminus Technology Inc. FE 2.1 7-port Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+```
 
 * 安装minicom
 ```ruby
@@ -125,6 +135,22 @@ sudo apt-get install minicom
 sudo minicom
 ```
 <img src="https://github.com/ergasterzhou/img/blob/master/001.png" alt="001" title="001" width="500" height="100" />
+
+* `[Ctrl]A Z`进入Minicom Command Summary
+<img src="https://github.com/ergasterzhou/img/blob/master/002.png" alt="002" title="002" width="500" height="400" />
+
+* `O`进入串口设置
+<img src="https://github.com/ergasterzhou/img/blob/master/003.png" alt="003" title="003" width="500" height="300" />
+
+* 设置串口
+<img src="https://github.com/ergasterzhou/img/blob/master/004.png" alt="004" title="004" width="500" height="300" />
+
+* 保存设置
+<img src="https://github.com/ergasterzhou/img/blob/master/005.png" alt="005" title="005" width="500" height="300" />
+
+* `[Ctrl]A X`退出minicom
+
+
 
 
 
