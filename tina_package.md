@@ -1,4 +1,107 @@
-## 创建软件包
+## 在tina中添加软件包
+
+在学习过程中，发现openwrt是buildboot的一种进阶形式，而我们公司的tina是buildboot的高阶形式，打个比方说，buildboot是iphone 3，openwrt是iphone6，而Tina就是iphone 7了，这样的比喻好像不恰当。网上对于Tina的介绍和资料较少，所以学习的时候按照openwrt来学习，毕竟两者的差别不大。
+
+在Tina中添加软件包，通俗而言是给系统添加应用。这些应用可以是用户程序，也可以是内核模块程序，可以是网上下载的开源软件，也可以是自己开发的软件。
+
+加入软件包需要在package目录下创建一个目录，目录下包括src目录和Makefile，还有Patch目录。src目录包含软件源代码和用以编译的Makefile；Makefile包含软件包的各种信息和与OpenWrt建立联系的文件，它的写作方式与普通的Makefile存在差异。另外可以创建一个patchs目录保存patch文件，对下载的源代码进行适当修改。
+
+下面介绍这个与众不同的Makefile，以下面这个Makefile模板为例。
+```ruby
+##############################################
+# OpenWrt Makefile for helloworld program
+#
+#
+# Most of the variables used here are defined in
+# the include directives below. We just need to
+# specify a basic description of the package,
+# where to build our program, where to find
+# the source files, and where to install the
+# compiled program on the router.
+#
+# Be very careful of spacing in this file.
+# Indents should be tabs, not spaces, and
+# there should be no trailing whitespace in
+# lines that are not commented.
+#
+##############################################
+include $(TOPDIR)/rules.mk
+# Name and release number of this package
+PKG_NAME:=helloworld
+PKG_RELEASE:=1
+
+# This specifies the directory where we're going to build the program.
+# The root build directory, $(BUILD_DIR), is by default the build_mipsel
+# directory in your OpenWrt SDK directory
+PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)
+
+include $(INCLUDE_DIR)/package.mk
+
+# Specify package information for this program.
+# The variables defined here should be self explanatory.
+# If you are running Kamikaze, delete the DESCRIPTION
+# variable below and uncomment the Kamikaze define
+# directive for the description below
+define Package/helloworld
+    SECTION:=utils
+    CATEGORY:=Utilities
+    TITLE:=Helloworld -- prints a snarky message
+endef
+
+# Uncomment portion below for Kamikaze and delete DESCRIPTION variable above
+define Package/helloworld/description
+If you can't figure out what this program does, you're probably
+brain-dead and need immediate medical attention.
+endef
+
+# Specify what needs to be done to prepare for building the package.
+# In our case, we need to copy the source files to the build directory.
+# This is NOT the default. The default uses the PKG_SOURCE_URL and the
+# PKG_SOURCE which is not defined here to download the source from the web.
+# In order to just build a simple program that we have just written, it is
+# much easier to do it this way.
+define Build/Prepare
+    mkdir -p $(PKG_BUILD_DIR)
+    $(CP) ./src/* $(PKG_BUILD_DIR)/
+endef
+
+# We do not need to define Build/Configure or Build/Compile directives
+# The defaults are appropriate for compiling a simple program such as this one
+
+# Specify where and how to install the program. Since we only have one file,
+# the helloworld executable, install it by copying it to the /bin directory on
+# the router. The $(1) variable represents the root directory on the router running
+# OpenWrt. The $(INSTALL_DIR) variable contains a command to prepare the install
+# directory if it does not already exist. Likewise $(INSTALL_BIN) contains the
+# command to copy the binary file from its current location (in our case the build
+# directory) to the install directory.
+define Package/helloworld/install
+$(INSTALL_DIR) $(1)/bin
+$(INSTALL_BIN) $(PKG_BUILD_DIR)/helloworld $(1)/bin/
+endef
+
+# This line executes the necessary commands to compile our program.
+# The above define directives specify all the information needed, but this
+# line calls BuildPackage which in turn actually uses this information to
+# build a package.
+$(eval $(call BuildPackage,helloworld))
+```
+### 引入文件
+
+OpenWrt使用三个makefile的子文件,包括rules.mk,kernel.mk和packafe.mk。这些makefile子文件确立软件包加入OpenWrt的方式和方法。
+
+```ruby
+# 不可缺少
+include $(TOPDIR)/rules.mk			
+# 对于软件包为内核模块时不可缺少
+include $(INCLUDE_DIR)/kernel.mk
+# 一般在软件包的基本信息完成后再引入
+include $(INCLUDE_DIR)/package.mk
+```
+
+###编写软件包基本信息
+
+
 
 这里，以helloworld为例在系统中创建helloworld程序.
 
@@ -99,7 +202,9 @@ find -name libc.so.6
 于是找其他答案，发现[OpenWRT - package missing dependencies when recompiling](https://stackoverflow.com/questions/20190030/openwrt-package-missing-dependencies-when-recompiling)
 提到
 ```ruby
-Is your src/ directory actually clean? I suspect it contains an "amldmonitor" executable already which was built for your host. Make sure your src/ directory does not contain any junk like *.o files or final executables.
+Is your src/ directory actually clean?
+I suspect it contains an "amldmonitor" executable already which was built for your host.
+Make sure your src/ directory does not contain any junk like *.o files or final executables.
 ```
 
 在写底层源文件和Makefile时编译源文件生成可执行文件helloworld，进入src文件夹make clean后编译通过。
@@ -188,8 +293,18 @@ sudo chmod a+x 70-android.rules
 ```ruby
 sudo adb kill-server ; adb start-server
 ```
+参考链接：
+[解决adb shell问题：error: insufficient permissions for device](http://blog.csdn.net/xiaxiangnanxp1989/article/details/8605611)
+[adb 权限问题 （insufficient permissions for device）](http://blog.csdn.net/hnmsky/article/details/7417151)
 
+### 安装helloworld
 
+opkg install helloworld0.0.1.ipk
+
+知道opkg没有安装，然后被告知make menuconfig的时候编译进系统就好了，以后在某个程序没有时，先去menuconfig里查找，用`\`。
+
+参考链接：
+[Openwrt 学习记录：openWRT添加用户模块-helloword](http://blog.csdn.net/fenggui/article/details/46669983)
 
 
 
