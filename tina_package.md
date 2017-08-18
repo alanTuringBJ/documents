@@ -99,11 +99,66 @@ include $(INCLUDE_DIR)/kernel.mk
 include $(INCLUDE_DIR)/package.mk
 ```
 
-###编写软件包基本信息
+### 编写软件包基本信息
+
+* PKG_NAME表示软件包名称，将在menuconfig和ipkg可以看到。
+* PKG_VERSION   表示软件版本号。
+PKG_RELEASE表示Makefile的版本号
+PKG_SOURCE表示源代码的文件名。
+PKG_SOURCE_URL 表示源代码的下载网站位置。
+PKG_MD5SUM表示源代码文件的效验码。用于核对软件包是否正确下载。
+PKG_CAT表示源代码文件的解压方法。包括zcat, bzcat, unzip等。
+* PKG_BUILD_DIR表示软件包编译目录。它的父目录为$(BUILD_DIR)。如果不指定，默认为$(BUILD_DIR)/$( PKG_NAME)$( PKG_VERSION)。
+
+### 用户程序包定义
+
+用户程序的编译包以Package/开头，然后接软件名
+
+* Package/$(PKG_NAME)
+```
+包含以下选项（SECTION保留，DESCRIPTION弃用）：
+CATEGORY表示分类，在menuconfig的菜单下将可以找到；
+TITLE用于软件包的简短描述；
+URL表示软件包的下载位置；
+MAINTAINER表示维护者，选项；
+DEPENDS表示与其他软件的依赖；
+```
+
+* Package/$(PKG_NAME)/description软件包的详细描述
+* Build/Prepare编译准备方法，将源文件放在目标生成目录下
+```ruby
+define Build/Prepare  
+        mkdir -p $(PKG_BUILD_DIR)  
+        $(CP) ./src/* $(PKG_BUILD_DIR)/  
+endef  
+```
+* Package/$(PKG_NAME)/install
+软件包的安装方法，包括一系列拷贝编译好的文件到指定位置。$(1)表示嵌入式系统镜像文件系统目录，例如下面例子中的helloworld将安装在板子系统的/bin文件夹下
+```ruby
+define Package/$(PKG_NAME)/install  
+        $(INSTALL_DIR) $(1)/usr/bin  
+        $(INSTALL_BIN) $(PKG_BUILD_DIR)/ $(PKG_NAME) $(1)/usr/bin/  
+endef
+```
+NSTALL_DIR、INSTALL_BIN在$(TOPDIR)/rules.mk文件定义，所以本Makefile必须引入$(TOPDIR)/rules.mk文件。
+
+INSTALL_DIR :=install -d -m0755    
+
+创建所属用户可读写即执行，其他用户可读且执行（不能写）的目录。
+
+INSTALL_BIN:=install -m0755 
+
+编译好的文件到镜像文件的文件目录。
+
+* $(eval $(call BuildPackage,$(PKG_NAME))) 对于用户程序软件包
+* $(eval $(call KernelPackage,$(PKG_NAME))) 对于内核模块软件包
+
+特别注意：BuildPackage,$(PKG_NAME)之间只有逗号，不能有空格。
 
 
 
-这里，以helloworld为例在系统中创建helloworld程序.
+
+### 下面，以helloworld为例在系统中创建helloworld程序.
 
 步骤：
 
@@ -208,6 +263,41 @@ Make sure your src/ directory does not contain any junk like *.o files or final 
 ```
 
 在写底层源文件和Makefile时编译源文件生成可执行文件helloworld，进入src文件夹make clean后编译通过。
+
+解决以上问题后，最终的Makefile，这个只针对helloworld，以后其他程序可在此基础上做出修改。
+```ruby
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=helloworld
+PKG_VERSION:=0.0.1
+#PKG_RELEASE:=1.0
+
+PKG_BUILD_DIR:=$(COMPILE_DIR)/$(PKG_NAME)
+
+include $(BUILD_DIR)/package.mk
+
+define Package/helloworld
+	CATEGORY:=Allwinner
+	TITLE:=Helloworld
+endef
+
+define Package/helloworld/description
+	This is my helloworld:
+	I look foward a happy beggin.
+endef
+
+define Build/Prepare
+	mkdir -p $(PKG_BUILD_DIR)
+	$(CP) ./src/* $(PKG_BUILD_DIR)/
+endef
+
+define Package/helloworld/install
+	$(INSTALL_DIR) $(1)/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/$(PKG_NAME) $(1)/bin/
+endef
+
+$(eval $(call BuildPackage,helloworld))
+```
 
 ## helloworld在开发板运行
 
