@@ -1,0 +1,246 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta content="text/css" http-equiv="Content-Style-Type">
+<title>pack_img.sh</title>
+</head>
+<body>
+<h1 align="center" class="root">
+<a name="6725nm4p06l81kar1gfo903g30">pack_img.sh</a>
+</h1>
+<div align="center" class="globalOverview">
+<img src="pack_img_files/images/pack_img.sh.jpg"></div>
+<h2 class="topic">
+<a name="5q5eedujlebmakqtqbqsp2i420">do_prepare</a>
+</h2>
+<h3 class="topic">
+<a name="6sav31cjb6uq8gfm4l2nda7akg">&nbsp;判断芯片、平台、板子的类型是否为空</a>
+</h3>
+<h3 class="topic">
+<a name="6rcq4k5oojffg3h6naj2k163k6">&nbsp;&nbsp;PACK_CHIP=</a>
+</h3>
+<h3 class="topic">
+<a name="3q1ht87i0j0i1hd2c0m3qlsqsd">&nbsp;&nbsp;&nbsp;xsun5i</a>
+</h3>
+<h3 class="topic">
+<a name="1ghk6d2784a0sahv4dmoddc1r8">&nbsp;&nbsp;&nbsp;xsun8i[5'6'8'10'11]p1</a>
+</h3>
+<h3 class="topic">
+<a name="4j9p9d4fifh949dvnf1al6sgvk">&nbsp;&nbsp;&nbsp;xsun3iw1p1</a>
+</h3>
+<h3 class="topic">
+<a name="35lu138s6indgns2s74htip7g2">&nbsp;&nbsp;&nbsp;xsun50iw1p1</a>
+</h3>
+<h3 class="topic">
+<a name="6p0surpabd8m4iu7kfigdkji6k">&nbsp;&nbsp;PACK_PLATFORM_BOARD</a>
+</h3>
+<h3 class="topic">
+<a name="7a1nn0g7v6f9l38lhsd70mvqfe">&nbsp;&nbsp;&nbsp;unclear</a>
+</h3>
+<h3 class="topic">
+<a name="3867v90fqnr4qpi0g4pbgmuksc">&nbsp;&nbsp;&nbsp;astar\octopus\banjo\azalea\cello\</a>
+</h3>
+<h3 class="topic">
+<a name="3jg6npt7eo90kenhv95r2fvtcp">&nbsp;&nbsp;&nbsp;sitar</a>
+</h3>
+<h3 class="topic">
+<a name="6hdm9uomosu3645hnf7f30d58t">&nbsp;&nbsp;&nbsp;tulip</a>
+</h3>
+<h3 class="topic">
+<a name="5f2vk6ln4cth6nsriobenrf253">&nbsp;&nbsp;PACK_BOARD</a>
+</h3>
+<h3 class="topic">
+<a name="5ol0sad6dufl0po28trp3oh0go">&nbsp;&nbsp;&nbsp;aster-evb\aster-parrot\azalea-m2ultra\azalea-perf2\sitar-perf1</a>
+</h3>
+<h3 class="topic">
+<a name="62iqutu2a37q3to2man36r7fao">&nbsp;判断配置文件是否存在</a>
+</h3>
+<h3 class="topic">
+<a name="3mpvc3s13gbi91ohikqr3fm1pi">&nbsp;&nbsp;${PACK_TOPDIR}/target/allwinner/${PACK_BOARD}/configs</a>
+</h3>
+<h3 class="topic">
+<a name="5m9sa5992rbrhlacosurhmd5pa">&nbsp;根据平台分析内核类型</a>
+</h3>
+<h3 class="topic">
+<a name="164rcnn15l117b3all4iqv3siu">&nbsp;&nbsp;PACK_KERN</a>
+</h3>
+<h3 class="topic">
+<a name="6b2d09p5j1680hp5bftkij2df5">&nbsp;&nbsp;ENV_SUFFIX</a>
+</h3>
+<h3 class="topic">
+<a name="6fb5ndhhuifh3efsb542d3ombe">&nbsp;将相关工具复制到编译输出image目录下</a>
+</h3>
+<h3 class="topic">
+<a name="5k5r6igl1f279bj74mmcl5dkhf">&nbsp;&nbsp;$(PACK_TOPDIR)/target/allwinner/$file ${ROOT_DIR}/image</a>
+</h3>
+<h3 class="topic">
+<a name="6echmmovdkk5nb75tdbauqh656">&nbsp;&nbsp;copying tools file</a>
+</h3>
+<h3 class="topic">
+<a name="2hde2pogc0putcdl4c4as43hv5">&nbsp;将相关配置文件复制到编译输出image目录下</a>
+</h3>
+<h3 class="topic">
+<a name="03lqsdf01opcavue2qsn4683he">&nbsp;&nbsp;$(PACK_TOPDIR)/target/allwinner/$file ${ROOT_DIR}/image</a>
+</h3>
+<h3 class="topic">
+<a name="63j357u0vqlgqnc3lrs88a4279">&nbsp;&nbsp;copying configs file</a>
+</h3>
+<h3 class="topic">
+<a name="38og9hfj50df9erfo0vq51bdr8">&nbsp;打印image文件夹下的fex和cfg的文件</a>
+</h3>
+<h3 class="topic">
+<a name="6dfl4qhbtkiv47cc0gidhchllp">&nbsp;修改得到环境备份</a>
+</h3>
+<h3 class="topic">
+<a name="74u5oodncv7epa9lvg0hmvpgj0">&nbsp;&nbsp;env-3.4.cfg --&gt; env.cfg</a>
+</h3>
+<h3 class="topic">
+<a name="1tdmlldumr0n8rt3a2bf1qkq7b">&nbsp;根据打包模式设置系统分区文件</a>
+</h3>
+<h3 class="topic">
+<a name="3kmib3ubrv8kvbpjubtkimndcn">&nbsp;&nbsp;sys_partition.fex/usbtlool.fex</a>
+</h3>
+<h3 class="topic">
+<a name="6bpc5mmfrsril491plp23o175h">&nbsp;分别将boot资源和文件拷贝到image下的相关目录</a>
+</h3>
+<h3 class="topic">
+<a name="0g3jkrho8gkf3ucg46b1jf2vt1">&nbsp;&nbsp;copying boot resourde</a>
+</h3>
+<h3 class="topic">
+<a name="4gohma870mt4g572248er25i9t">&nbsp;&nbsp;copying boot files</a>
+</h3>
+<h3 class="topic">
+<a name="21si34g0lcg51qn5ksvci22mq7">&nbsp;根据ARCH,PACK_SECURE\PACK_SIG\PACK_DEGUG\FUNC进行相应设置</a>
+</h3>
+<h3 class="topic">
+<a name="2q99lnnu1jm8mfnnev58poq3c5">&nbsp;&nbsp;usart_switch</a>
+</h3>
+<h3 class="topic">
+<a name="0qr7lloipdran9eev8i3dgg96k">&nbsp;根据系统采用的设置确定镜像的名字IMG_NAME，并加入到image.cfg中</a>
+</h3>
+<h2 class="topic">
+<a name="10cusibli622ko66mkj1bpu69c">do_init_to_dts</a>
+</h2>
+<h3 class="topic">
+<a name="32aie5limh1vltt4s4saqkd1l3">&nbsp;设置函数内部局部变量</a>
+</h3>
+<h3 class="topic">
+<a name="1c0r4tvnmg4ljfg4tkcjk8sta3">&nbsp;查找是否存在文件DTC_DEP_FILE</a>
+</h3>
+<h3 class="topic">
+<a name="74nttg2jorekjpeu8p7vtdjt3n">&nbsp;&nbsp;scripts_to_dts:can not find [${PACK_CHIP} $(PACK_BOARD)].Will use common dts file instead.</a>
+</h3>
+<h3 class="topic">
+<a name="3dqs7h22hqdb9kf4vji599djve">&nbsp;定义DTC_DEP_FILE和DTC_SRC_FILE</a>
+</h3>
+<h3 class="topic">
+<a name="76fq62gb594k9hr9hk4u7uqbut">&nbsp;编译生成sunxi.dtb</a>
+</h3>
+<h3 class="topic">
+<a name="1cq2mhtr850m438gotl04ci9ld">&nbsp;conver script to dts ok</a>
+</h3>
+<h3 class="topic">
+<a name="1137qu6nfjsd3q0im89bb5qloj">&nbsp;&nbsp;DTC_INI_FILE_BASE --&gt; sys_config.fex</a>
+</h3>
+<h3 class="topic">
+<a name="2j9630cd8djc1k1puddliavve4">&nbsp;&nbsp;DTC_INI_FILE --&gt; sys_config_fix,fex</a>
+</h3>
+<h3 class="topic">
+<a name="1vlfl803h4qbu3c52tdesfja0o">&nbsp;反编译生成同于调试的dts</a>
+</h3>
+<h2 class="topic">
+<a name="4supc19s2k8fjmfpbouk0vfn3n">do_common</a>
+</h2>
+<h3 class="topic">
+<a name="5mg46s4seo9i8e0ko6huvn2mdh">&nbsp;将sys_config.fex\board_config.fex由Unix格式转换成Dos格式</a>
+</h3>
+<h3 class="topic">
+<a name="6vah43efuadqvl709gm7j2ihhk">&nbsp;sys_config.fex----&gt;sys_config.bin----&gt;config.fex</a>
+</h3>
+<h3 class="topic">
+<a name="1t4b4ed7r7f2rhgch53j7vk742">&nbsp;board_config.fex----&gt;board_config.bin----&gt;board.fex</a>
+</h3>
+<h3 class="topic">
+<a name="4bk0h1iqrt8etiic1li7htiim7">&nbsp;test_config.fex----&gt;bootsource///test_config.bin----&gt;boot-resource</a>
+</h3>
+<h3 class="topic">
+<a name="6vrdfjkq25n8803jm395cqscm0">&nbsp;create sys_partition_nor.bin----&gt;sys_config.bin</a>
+</h3>
+<h3 class="topic">
+<a name="0e147ttn1vq45qf0kj17lld9t3">&nbsp;boot0_nand.fex\boot_sdcard.fex----&gt;sys_config.bin</a>
+</h3>
+<h3 class="topic">
+<a name="2fld590osi9ipengbhe36tc4t4">&nbsp;boot_package.cfg</a>
+</h3>
+<h2 class="topic">
+<a name="1s6dk6o068u4cj4u931igthhrq">do_pack_tina</a>
+</h2>
+<h3 class="topic">
+<a name="4j2s9o4svf5lb53ubt8ntt2cml">&nbsp;ln -s</a>
+</h3>
+<h3 class="topic">
+<a name="15752d56tk6jhv8m7oq7dfd1jt">&nbsp;&nbsp;boot.img----&gt;boot.fex</a>
+</h3>
+<h3 class="topic">
+<a name="3p41fkvl2ip3jggm02ikhv8lto">&nbsp;&nbsp;rootfs.img----&gt;rootfs.fex</a>
+</h3>
+<h3 class="topic">
+<a name="3mn7fc5reu2imji3lhilvamdjh">&nbsp;&nbsp;usr.img----&gt;usr.fex</a>
+</h3>
+<h3 class="topic">
+<a name="0i2833ekhf6an956naln30dmun">&nbsp;&nbsp;boot_initramfs.img----&gt;boot_initramfs.fex</a>
+</h3>
+<h3 class="topic">
+<a name="4mhsvev1i5l8lm3g61hf2342og">&nbsp;do_signature</a>
+</h3>
+<h3 class="topic">
+<a name="6g1v64srs1vmv1u6n7r6v4u89v">&nbsp;&nbsp;dragon_toc.cfg</a>
+</h3>
+<h3 class="topic">
+<a name="7toft718ut9jrhp6as67sgpur4">&nbsp;&nbsp;&nbsp;PACK_SIG</a>
+</h3>
+<h3 class="topic">
+<a name="51aih1vkmt2ptjk2ai2ot37udg">&nbsp;&nbsp;&nbsp;PACK_PLATFORM</a>
+</h3>
+<h2 class="topic">
+<a name="12tnbl7ct7rk11e1581289bmtu">do_finish</a>
+</h2>
+<h3 class="topic">
+<a name="7makpnh48208h0iv2qju6204in">&nbsp;update_mbr sys_partition_nor.bin</a>
+</h3>
+<h3 class="topic">
+<a name="150tlllnsavr2f9bk6skte2avo">&nbsp;&nbsp;print path</a>
+</h3>
+<h3 class="topic">
+<a name="027oqatlhoep4k8hpd72tppn57">&nbsp;&nbsp;&nbsp;partition</a>
+</h3>
+<h3 class="topic">
+<a name="30ljraqo0ccjmkjjnkmgdb7uha">&nbsp;&nbsp;&nbsp;MBR</a>
+</h3>
+<h3 class="topic">
+<a name="4ushqnqimifv1uks4lk5cr1d3p">&nbsp;&nbsp;&nbsp;download</a>
+</h3>
+<h3 class="topic">
+<a name="18tehftjk1q0l3nhvn7nrrd4a1">&nbsp;&nbsp;update_for_part_info</a>
+</h3>
+<h3 class="topic">
+<a name="21bt97k15ghfctud035q1646nh">&nbsp;&nbsp;&nbsp;disk name</a>
+</h3>
+<h3 class="topic">
+<a name="02tgion5q6mh2qeqq74dobv577">&nbsp;&nbsp;&nbsp;filename</a>
+</h3>
+<h3 class="topic">
+<a name="518mmq1f3hc687tt78n0nmpps5">&nbsp;&nbsp;&nbsp;dl_file_size</a>
+</h3>
+<h3 class="topic">
+<a name="7m6p1hco7pm74ojoiib1tjepci">&nbsp;&nbsp;&nbsp;partsize</a>
+</h3>
+<h3 class="topic">
+<a name="6dhe64lk26vm9ab1eu5dgvhh9g">&nbsp;update_mbr sys_partition.bin</a>
+</h3>
+<h3 class="topic">
+<a name="6lsnm908th0ghmk2oc90d5d6ik">&nbsp;dragon image.cfg sys_partition.bin </a>
+</h3>
+</body>
+</html>
