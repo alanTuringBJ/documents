@@ -17,7 +17,7 @@
 
 lunch执行过程如下图所示:
 
-<img src="https://github.com/ergasterzhou/img/blob/master/lunch.png" alt="lunch" title="001" width="1000" height="400" />
+<img src="https://github.com/ergasterzhou/img/blob/master/lunch.png" alt="lunch" title="001" width="1000" height="300" />
 
 ### make()
 
