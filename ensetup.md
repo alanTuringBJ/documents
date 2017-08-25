@@ -17,11 +17,11 @@
 
 lunch执行过程如下图所示:
 
-<img src="https://github.com/ergasterzhou/img/blob/master/lunch.png" alt="lunch" title="001" width="500" height="300" />
+<img src="https://github.com/ergasterzhou/img/blob/master/lunch.png" alt="lunch" title="001" width="500" height="1000" />
 
 ### make()
 
-make()过程相对简单，主要是执行$(get_make_command)命令，即make V=s，然后即可执行顶层目录下的Makefile；
+make()过程相对简单，主要是执行`$(get_make_command)`命令，即`make V=s`，然后即可执行顶层目录下的Makefile；
 
 其次，针对时间进行处理，计算并打印编译开始时间和编译结束时间。
 
@@ -31,9 +31,9 @@ make()过程相对简单，主要是执行$(get_make_command)命令，即make V=
 
 * 设置一系列打包过程中需要的变量；
 * 根据打包参数设置变量；
-* 交由$T/scripts/pack_img.sh脚本执行
+* 交由`$T/scripts/pack_img.sh`脚本执行
 
-以选项6.azalea_m2ultra-tina为例，pack中传递的参数包括：
+以选项`6.azalea_m2ultra-tina`为例，pack中传递的参数包括：
 * chip : sun8iw11p1
 * platform : tina
 * board : azalea-m2ultra
