@@ -60,15 +60,39 @@ files := $(foreach n,$(names),$(n).o)
 
 ## call函数
 
-参数传递函数
+“call”函数是唯一一个可以创建定制参数化的函数的引用函数。我们可以将一个变量定义为一个复杂的表达式，用“call”函数根据不同的参数对它进行展开来获得不同的结果。
 
-语法：当make执行这个函数时，<expression>参数中的变量，如$(1)，$(2)，$(3)等，会被参数< parm1>，<parm2>，<parm3>依次取代。而<expression>的返回值就是 call函数的返回值。例如：
+语法：
+```ruby
+$(call VARIABLE,PARAM,PARAM,...)
+```
+
+当make执行这个函数时，<expression>参数中的变量，如$(1)，$(2)，$(3)等，会被参数< parm1>，<parm2>，<parm3>依次取代。而<expression>的返回值就是 call函数的返回值。
+
+返回值：参数值“PARAM”依次替换“$(1)”、“$(2)”…… 之后变量“VARIABLE”定义的表达式的计算值。
+
+例如：
 ```ruby
 reverse =  $(1) $(2)
 
 foo = $(call reverse,a,b)
 ```
 那么，foo的值就是`“a b”`。当然，参数的次序是可以自定义的，不一定是顺序的。
+
+注意：
+
+* 函数中“VARIBLE”是一个变量名，而不是对变量的引用。因此，通常“call”函数中的“VARIABLE”中不包含“$”（当然，除了此变量名是一个计算的变量名）。
+* 当变量“VARIBLE”是一个make内嵌的函数名（如if，foreach,strip等），对“PARAM”参数的使用需要注意，因为不正确的参数将导致函数的返回值难以预料。
+* 函数中多个PARAM之间用逗号分隔。
+* 变量VARIABLE在定义时不能定义为直接展开式，只能定义为递归展开式。
+
+```ruby
+pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH))))) LS := $(call pathsearch,ls)
+```
+
+变量“LS”的结果为“/bin/sh”。执行过程：函数“subst”将环境变量“PATH”转换为空格分割的搜索路径列表；“addsuffix”构造出可能的可执行程序“$(1)”（这里是“ls”）带路径的完整文件名（如：“/bin/$(1)”），之后使用函数“wildcard”匹配，最后“firstword”函数取第一个文件名。   函数“call”以可以套嵌使用。每一层“call”函数的调用都为它自己的局部变量“$(1)”等赋值，覆盖上一层函数为它所赋的值。 
+
+
 
 ## origin函数
 

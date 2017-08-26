@@ -28,7 +28,12 @@ command也就是make需要执行的命令（**任意**的shell命令）。
 2. 隐晦规则。由于我们的make有自动推导的功能，所以隐晦的规则可以让我们比较简略地书写Makefile，这是由make所支持的。  
 3. 变量的定义。在Makefile中我们要定义一系列的变量，变量一般都是字符串，这个有点像你C语言中的宏，当Makefile被执行时，其中的变量都会被扩展到相应的引用位置上。  
 4. 文件指示。其包括了三个部分
-* 一个Makefile中引用另一个Makefile，就像C语言中的include一样；
+* 一个Makefile中引用另一个Makefile，就像C语言中的include一样；例如Tina主文件夹下的Makefile只有一行
+```ruby
+include build/main.mk
+```
+被包含的文件(build文件夹下的main.mk文件)会原模原样的放在当前文件的包含位置，实际上是执行main.mk的内容。注意这里的include是一个关键字，前面没有`#`。
+
 * 另一个是指根据某些情况指定Makefile中的有效部分，就像C语言中的预编译#if一样；
 * 还有就是定义一个多行的命令。
 5. 注释。Makefile中只有行注释，和UNIX的Shell脚本一样，其注释是用“#”字符。  
